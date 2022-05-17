@@ -1,6 +1,6 @@
 #!/bin/bash
 #set the prompt to show you are in pentmenu and not standard shell
-PS3="Pentmenu>"
+PS3="Pentmenu> "
 
 ##MAINMENU##
 ##################
@@ -12,7 +12,7 @@ mainmenu()
 mainmenu=("Recon" "DOS" "Khai thác" "Xem hướng dẫn" "Thoát")
 select opt in "${mainmenu[@]}"; do
 	if [ "$opt" = "Thoát" ]; then
-	echo "Quitting...Thank you for using pentmenu!" && sleep 1 && clear
+	echo "Đang thoát ... Cảm ơn bạn đã sử dụng pentmenu!" && sleep 1 && clear
 	exit 0
 	elif [ "$opt" = "Recon" ]; then
 reconmenu
@@ -80,14 +80,14 @@ reconmenu()
 ################
 ##START SHOWIP##
 showip()
-{		echo "External IP lookup uses curl..."
-		echo "External IP is detected as:"
-#use curl to lookup external IP
+{		echo "Tra cứu IP bên ngoài sử dụng ..."
+		echo "IP bên ngoài được phát hiện là: "
+#sử dụng curl để tra cứu IP bên ngoài
 		curl https://icanhazip.com/s/
 		echo ""
 		echo ""
 #show interface IP's
-		echo "Interface IP's are:"
+		echo "IP của giao diện là: "
 		ip a|grep inet
 #if ip a command fails revert to ifconfig
 	if ! [[ $? = 0 ]]; then
@@ -101,8 +101,8 @@ showip()
 ##################
 ##START DNSRECON##
 dnsrecon()
-{ echo "This module performs passive recon via forward/reverse name lookups for the target (as appropriate) and performs a whois lookup"
-	echo "Enter target:"
+{ echo "Mô-đun này thực hiện trinh sát thụ động thông qua tra cứu tên tiến / ngược cho mục tiêu (nếu thích hợp) và thực hiện tra cứu whois"
+	echo "Nhập mục tiêu: "
 #need a target IP/hostname to check
 	read -i $TARGET -e TARGET
 host $TARGET
@@ -123,8 +123,8 @@ fi
 ###################
 ##START PINGSWEEP##
 pingsweep()
-{ echo "This module performs a simple ICMP echo 'ping' sweep"
-	echo "Please enter the target (e.g. 192.168.1.0/24):"
+{ echo "Mô-đun này thực hiện một ICMP đơn giản echo 'ping' sweep"
+	echo "Vui lòng nhập mục tiêu (e.g. 192.168.1.0/24): "
 #need to know the subnet to scan for live hosts using pings
 	read -i $TARGET -e TARGET
 #launch ping sweep using nmap
@@ -137,16 +137,16 @@ sudo nmap -sP -PE $TARGET --reason
 ######################
 ##START QUICKSCAN##
 quickscan()
-{ echo "This module conducts a scan using nmap"
-echo "It is designed to scan an entire network for common open ports"
-echo "It will perform a TCP SYN port scan of the 1000 most common ports"
-echo "Depending on the target, the scan might take a long time to finish"
-echo "Please enter the target host/IP/subnet:"
+{ echo "Mô-đun này tiến hành quét bằng nmap"
+echo "Nó được thiết kế để quét toàn bộ mạng cho các cổng mở phổ biến"
+echo "Nó sẽ thực hiện quét cổng TCP SYN của 1000 cổng phổ biến nhất"
+echo "Tùy thuộc vào mục tiêu, quá trình quét có thể mất nhiều thời gian để hoàn thành"
+echo "Vui lòng nhập máy chủ đích / IP / mạng con: "
 #we need to know where to scan.  Whilst a hostname is possible, this module is designed to scan a subnet range
 read -i $TARGET -e TARGET
-echo "Enter the speed of scan (0 means very slow and 5 means fast).
-Slower scans are more subtle, but faster means less waiting around.
-Default is 3:"
+echo "Nhập tốc độ quét (0 có nghĩa là rất chậm và 5 có nghĩa là nhanh).
+Quét chậm hơn sẽ tinh tế hơn, nhưng nhanh hơn có nghĩa là ít phải chờ đợi hơn.
+Mặc định là 3:"
 #How fast should we scan the target?
 #Faster speed is more likely to be detected by IDS, but is less waiting around
 read -i $SPEED -e SPEED
@@ -160,16 +160,16 @@ sudo nmap -Pn -sS -T $SPEED $TARGET --reason
 #####################
 ##START DETAILEDSCAN##
 detailedscan()
-{ echo "This module performs a scan using nmap"
-echo "It is designed to perform a detailed scan of a specific host but can be used against an entire network"
-echo "This scans ALL ports on the target. It also attempts OS detection and gathers service information"
-echo "This scan might take a very long time to finish, please be patient"
-echo "Enter the hostname/IP/subnet to scan:"
+{ echo "Mô-đun này thực hiện quét bằng nmap"
+echo "Nó được thiết kế để thực hiện quét chi tiết một máy chủ cụ thể nhưng có thể được sử dụng trên toàn bộ mạng"
+echo "Điều này sẽ quét TẤT CẢ các cổng trên mục tiêu. Nó cũng cố gắng phát hiện hệ điều hành và thu thập thông tin dịch vụ"
+echo "Quá trình quét này có thể mất nhiều thời gian để hoàn thành, hãy kiên nhẫn"
+echo "Nhập tên máy chủ / IP / mạng con để quét: "
 #need a target hostname/IP
 read -i $TARGET -e TARGET
-echo "Enter the speed of scan (0 means very slow and 5 means fast).
-Slower scans are more subtle, but faster means less waiting around.
-Default is 3:"
+echo "Nhập tốc độ quét (0 có nghĩa là rất chậm và 5 có nghĩa là nhanh).
+Quét chậm hơn sẽ tinh tế hơn, nhưng nhanh hơn có nghĩa là ít phải chờ đợi hơn.
+Mặc định là 3: "
 #How fast should we scan the target?
 #Faster speed is more likely to be detected by IDS, but is less waiting around
 read -i $SPEED -e SPEED
@@ -183,16 +183,16 @@ sudo nmap -script-args http.useragent="Mozilla/5.0 (Windows NT 10.0; Win64; x64)
 #################
 ##START UDPSCAN##
 udpscan()
-{ echo "This module lets you scan a host/network for open UDP ports"
-echo "It scans ALL ports on the target system. This may take some time, please be patient"
-echo "Enter the host/subnet to scan:"
+{ echo "Mô-đun này cho phép bạn quét một máy chủ / mạng để tìm các cổng UDP đang mở"
+echo "Nó quét TẤT CẢ các cổng trên hệ thống đích. Điều này có thể mất một chút thời gian, hãy kiên nhẫn"
+echo "Nhập máy chủ / mạng con để quét: "
 #need a target IP/hostname
 read -i $TARGET -e TARGET
 #How fast should we scan the target?
 #Faster speed is more likely to be detected by IDS, but is less waiting around
-echo "Enter the speed of scan (0 means very slow and 5 means fast).
-Slower scans are more subtle, but faster means less waiting around.
-Default is 3:"
+echo "Nhập tốc độ quét (0 có nghĩa là rất chậm và 5 có nghĩa là nhanh).
+Quét chậm hơn sẽ tinh tế hơn, nhưng nhanh hơn có nghĩa là ít phải chờ đợi hơn.
+Mặc định là 3: "
 read -i $SPEED -e SPEED
 : ${SPEED:=3}
 #launch the scan using nmap
