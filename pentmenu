@@ -42,28 +42,28 @@ reconmenu()
 		reconmenu=("Show IP" "DNS Recon" "Ping Quét" "Quét nhanh" "Quét chi tiết" "Quét UDP" "Kiểm tra thời gian hoạt động của máy chủ" "Quét IPsec" "Quay lại")
 	select reconopt in "${reconmenu[@]}"; do
 # hiển thị IP bên ngoài và IP giao diện(s)
-	if [ "$reconopt" = "Show IP" ]; then
+	if [ "$reconopt" = "  Show IP" ]; then
 		showip
 #DNS Recon
-    elif [ "$reconopt" = "DNS Recon" ]; then
+    elif [ "$reconopt" = "  DNS Recon" ]; then
         dnsrecon
 #Ping Sweep
-    elif [ "$reconopt" = "Ping Sweep" ]; then
+    elif [ "$reconopt" = "  Ping Sweep" ]; then
         pingsweep
-#Recon Network
-    elif [ "$reconopt" = "Quick Scan" ]; then
+# Mạng Recon
+    elif [ "$reconopt" = "  Quét nhanh" ]; then
         quickscan
-#Stealth Scan
-    elif [ "$reconopt" = "Detailed Scan" ]; then
+Stealth Scan#
+    elif [ "$reconopt" = "  Quét chi tiết" ]; then
         detailedscan
 #UDP Scan
 	elif [ "$reconopt" = "UDP Scan" ]; then
 		udpscan
 # Kiểm tra thời gian hoạt động của máy chủ
-    elif [ "$reconopt" = "Check Server Uptime" ]; then
+    elif [ "$reconopt" = "  Kiểm tra thời gian hoạt động của máy chủ" ]; then
         checkuptime
 #IPsec Scan
-	elif [ "$reconopt" = "IPsec Scan" ]; then
+	elif [ "$reconopt" = "  Quét IPsec" ]; then
 		ipsecscan
 #Go back
 	elif [ "$reconopt" = "Go back" ]; then
