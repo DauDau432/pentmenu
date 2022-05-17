@@ -2,7 +2,7 @@
 # đặt lời nhắc để hiển thị bạn đang ở trong pentmenu và không phải trình bao tiêu chuẩn
 PS3="Pentmenu>"
 
-##MAINMENU##
+##MENU CHÍNH##
 ##################
 ##START MAINMENU##
 mainmenu()
@@ -38,10 +38,10 @@ done
 ##START RECONMENU##
 reconmenu()
 {
-#build a menu for the recon modules using bash select
-		reconmenu=("Show IP" "DNS Recon" "Ping Sweep" "Quick Scan" "Detailed Scan" "UDP Scan" "Check Server Uptime" "IPsec Scan" "Go back")
+# xây dựng một menu cho các mô-đun điều khiển lại bằng cách sử dụng lựa chọn cơ bản
+		reconmenu=("Show IP" "DNS Recon" "Ping Quét" "Quét nhanh" "Quét chi tiết" "Quét UDP" "Kiểm tra thời gian hoạt động của máy chủ" "Quét IPsec" "Quay lại")
 	select reconopt in "${reconmenu[@]}"; do
-#show external IP & interface IP(s)
+# hiển thị IP bên ngoài và IP giao diện(s)
 	if [ "$reconopt" = "Show IP" ]; then
 		showip
 #DNS Recon
@@ -59,7 +59,7 @@ reconmenu()
 #UDP Scan
 	elif [ "$reconopt" = "UDP Scan" ]; then
 		udpscan
-#Check uptime of server
+# Kiểm tra thời gian hoạt động của máy chủ
     elif [ "$reconopt" = "Check Server Uptime" ]; then
         checkuptime
 #IPsec Scan
@@ -68,9 +68,9 @@ reconmenu()
 #Go back
 	elif [ "$reconopt" = "Go back" ]; then
 		mainmenu
-## Default if no menu option selected is to return an error
+## Mặc định nếu không có tùy chọn menu nào được chọn sẽ trả về lỗi
 	else
-  		echo  "That's not a valid option! Hit Return to show menu"
+  		echo  "  Đó không phải là một lựa chọn hợp lệ! Nhấn Quay lại để hiển thị menu"
 	fi
 	done
 }
