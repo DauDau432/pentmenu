@@ -41,6 +41,7 @@ chmod +x ./pentmenu
 ```
 
 Ngoài ra, hãy tải xuống bản phát hành mới nhất từ https://github.com/GinjaChris/pentmenu/releases, giải nén nó và chạy tập lệnh.
+
 Hoặc sử dụng git clone:
 
 ```
