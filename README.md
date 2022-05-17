@@ -1,72 +1,57 @@
-# pentmenu
+# Pentmenu
 
-[中文说明](/README.zh-CN.md)
+**Một bash menu lựa chọn để khôi phục mạng nhanh chóng và dễ dàng và các cuộc tấn công DOS**
 
-**A bash select menu for quick and easy network recon and DOS attacks**
+Sudo được thực hiện khi cần thiết.
+Đã thử nghiệm trên Debian và Arch.
 
-
-Sudo is implemented where necesssary.
-Tested on Debian and Arch.
-
-## Requirements:
-
+## Yêu cầu:
 * bash
-
 * sudo 
-
 * curl
-
-* netcat (must support '-k' option, openbsd variant recommended)
-
-* hping3 (or nping can be used as a substitute for flood attacks)
-
+* netcat (phải hỗ trợ '-k' tùy chọn, biến thể openbsd được đề xuất)
+* hping3 (hoặc nping có thể được sử dụng để thay thế cho các cuộc tấn công lũ lụt)
 * openssl
-
 * stunnel
-
 * nmap
-
-* whois (not essential but preferred)
-
-* nslookup (or 'host')
-
+* whois (không cần thiết nhưng được ưu tiên)
+* nslookup (hoặc 'host')
 * ike-scan
+* bind-tools (thường là một phần của 'bind' gói, cần thiết cho "host" và "nslookup")
 
-* bind-tools (often part of the 'bind' package, needed for "host" and "nslookup")
-
-## How to use?
+## Làm thế nào để sử dụng?
 
 
-- Download the script:
-
-```
-$ wget https://raw.githubusercontent.com/GinjaChris/pentmenu/master/pentmenu
-```
-
-- Make it executable:
+- Tải xuống tập lệnh:
 
 ```
-$ chmod +x ./pentmenu
+wget https://raw.githubusercontent.com/GinjaChris/pentmenu/master/pentmenu
 ```
 
-- Run it:
+- Làm cho nó có thể thực thi được:
 
 ```
-$ ./pentmenu
+chmod +x ./pentmenu
 ```
 
-Alternatively, download the latest release from https://github.com/GinjaChris/pentmenu/releases, extract it and run the script.
-Or use git clone:
+- Chạy nó:
+
+```
+./pentmenu
+```
+
+Ngoài ra, hãy tải xuống bản phát hành mới nhất từ https://github.com/GinjaChris/pentmenu/releases, giải nén nó và chạy tập lệnh.
+Hoặc sử dụng git clone:
 
 ```
 git clone https://github.com/GinjaChris/pentmenu
 ```
 
-## Module detail
+## Chi tiết mô-đun
 
-**RECON MODULES**
+**GHI CHẾ ĐỘ**
 
-* Show IP - uses curl to perform a lookup of your external IP. Runs ip a or ifconfig (as appropriate) to show local interface IP's.
+* Show IP - sử dụng curl để thực hiện tra cứu IP bên ngoài của bạn. Chạy `ip a` hoặc `ifconfig` (nếu thích hợp) để hiển thị IP của giao diện cục bộ.
 
 
 * DNS Recon - passive recon, performs a DNS lookup (forward or reverse as appropriate for target input) and a whois lookup of the target.  If whois is not available it will perform a lookup against ipinfo.io (only works for IP's, not hostnames).
@@ -163,22 +148,14 @@ When receiving files over UDP, the listener must be manually closed with 'Ctrl C
 When receiving files over TCP, the connection automatically closes after the client closes their connection (once the file is transferred) and md5 and sha512 checksums are calculated for the received file.
 
 
-## Disclaimer
+## Tuyên bố từ chối trách nhiệm
 
-This script is only for responsible, authorised use. You are responsible for your own actions and this script is provided without warranty or guarantee of any kind.  The author(s) accept no responsibility or liability on your behalf.
-
-
-## Also see
-
-Pentmenu is available as a [package](https://archstrike.org/packages/pentmenu) on Arch Linux. Big love to [ArchStrike](https://archstrike.org/) and [Parrot linux](https://www.parrotsec.org/).
+Tập lệnh này chỉ dành cho việc sử dụng có trách nhiệm, được phép. Bạn chịu trách nhiệm cho các hành động của mình và tập lệnh này được cung cấp mà không có bảo hành hoặc đảm bảo dưới bất kỳ hình thức nào. (Các) tác giả không chịu trách nhiệm hoặc nghĩa vụ thay mặt cho bạn.
 
 
-## Donations
+## Cũng thấy
 
-Donations are accepted in cryptocurrency:
+Pentmenu có sẵn dưới dạng [bưu kiện](https://archstrike.org/packages/pentmenu) trên Arch Linux. Tình yêu lớn [ArchStrike](https://archstrike.org/) và [Parrot linux](https://www.parrotsec.org/).
 
-Bitcoin:
-```
-18N7UavMWKKa3sFD37WuMTnn6PdfZA3ips
-```
+
 
