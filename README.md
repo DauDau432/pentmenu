@@ -25,7 +25,7 @@ Sudo được thực hiện khi cần thiết.
 - Tải xuống tập lệnh:
 
 ```
-wget https://raw.githubusercontent.com/GinjaChris/pentmenu/master/pentmenu
+wget https://raw.githubusercontent.com/DauDau432/pentmenu/main/pentmenu
 ```
 
 - Làm cho nó có thể thực thi được:
