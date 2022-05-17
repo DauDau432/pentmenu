@@ -1,5 +1,5 @@
 #!/bin/bash
-#set the prompt to show you are in pentmenu and not standard shell
+# đặt lời nhắc để hiển thị bạn đang ở trong pentmenu và không phải trình bao tiêu chuẩn
 PS3="Pentmenu>"
 
 ##MAINMENU##
@@ -7,24 +7,24 @@ PS3="Pentmenu>"
 ##START MAINMENU##
 mainmenu()
 {
-#build a main menu using bash select
-#from here, the various sub menus can be selected and from them, modules can be run
+# xây dựng một menu chính bằng cách sử dụng lựa chọn cơ bản
+# từ đây, các menu phụ khác nhau có thể được chọn và từ chúng, có thể chạy các mô-đun
 mainmenu=("Recon" "DOS" "Extraction" "View Readme" "Quit")
 select opt in "${mainmenu[@]}"; do
 	if [ "$opt" = "Quit" ]; then
-	echo "Quitting...Thank you for using pentmenu!" && sleep 1 && clear
+	echo "  Đang thoát ... Cảm ơn bạn đã sử dụng pentmenu!" && sleep 1 && clear
 	exit 0
-	elif [ "$opt" = "Recon" ]; then
+	elif [ "$opt" = "  Recon" ]; then
 reconmenu
-	elif [ "$opt" = "DOS" ]; then
+	elif [ "$opt" = "  DOS" ]; then
 dosmenu
-    elif [ "$opt" = "Extraction" ]; then
+    elif [ "$opt" = "  Khai thác" ]; then
 extractionmenu
-  	elif [ "$opt" = "View Readme" ]; then
+  	elif [ "$opt" = "  Xem hướng dẫn" ]; then
 showreadme
 	else
-#if no valid option is chosen, chastise the user
-	echo "That's not a valid option! Hit Return to show main menu"
+# nếu không có tùy chọn hợp lệ nào được chọn, hãy trừng phạt người dùng
+	echo "  Đó không phải là một lựa chọn hợp lệ! Nhấn Quay lại để hiển thị menu chính"
 	fi
 done
 }
