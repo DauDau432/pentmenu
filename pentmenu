@@ -39,7 +39,7 @@ done
 reconmenu()
 {
 #build a menu for the recon modules using bash select
-		reconmenu=("Show IP" "DNS Recon" "Ping Sweep" "Quick Scan" "Detailed Scan" "UDP Scan" "Check Server Uptime" "IPsec Scan" "Go back")
+		reconmenu=("Show IP" "DNS Recon" "Ping Sweep" "Quét nhanh" "Detailed Scan" "UDP Scan" "Check Server Uptime" "IPsec Scan" "Go back")
 	select reconopt in "${reconmenu[@]}"; do
 #show external IP & interface IP(s)
 	if [ "$reconopt" = "Show IP" ]; then
@@ -51,7 +51,7 @@ reconmenu()
     elif [ "$reconopt" = "Ping Sweep" ]; then
         pingsweep
 #Recon Network
-    elif [ "$reconopt" = "Quick Scan" ]; then
+    elif [ "$reconopt" = "Quét nhanh" ]; then
         quickscan
 #Stealth Scan
     elif [ "$reconopt" = "Detailed Scan" ]; then
