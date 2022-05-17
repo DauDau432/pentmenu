@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+apt-get update -y
+apt upgrade
+rm pentmenu
+clear
+wget https://raw.githubusercontent.com/DauDau432/pentmenu/main/pentmenu
+chmod +x ./pentmenu
+./pentmenu
