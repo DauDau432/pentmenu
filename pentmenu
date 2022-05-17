@@ -9,22 +9,22 @@ mainmenu()
 {
 #build a main menu using bash select
 #from here, the various sub menus can be selected and from them, modules can be run
-mainmenu=("Recon" "DOS" "Extraction" "Xem hướng dẫn" "Quit")
+mainmenu=("Recon" "DOS" "Khai thác" "Xem hướng dẫn" "Thoát")
 select opt in "${mainmenu[@]}"; do
-	if [ "$opt" = "Quit" ]; then
+	if [ "$opt" = "Thoát" ]; then
 	echo "Quitting...Thank you for using pentmenu!" && sleep 1 && clear
 	exit 0
 	elif [ "$opt" = "Recon" ]; then
 reconmenu
 	elif [ "$opt" = "DOS" ]; then
 dosmenu
-    elif [ "$opt" = "Extraction" ]; then
+    elif [ "$opt" = "Khai thác" ]; then
 extractionmenu
-  	elif [ "$opt" = "pentmenu" ]; then
+  	elif [ "$opt" = "Xem hướng dẫn" ]; then
 showreadme
 	else
 #if no valid option is chosen, chastise the user
-	echo "That's not a valid option! Hit Return to show main menu"
+	echo "Đó không phải là một lựa chọn hợp lệ! Nhấn Quay lại để hiển thị menu chính"
 	fi
 done
 }
@@ -39,7 +39,7 @@ done
 reconmenu()
 {
 #build a menu for the recon modules using bash select
-		reconmenu=("Show IP" "DNS Recon" "Ping Sweep" "Quét nhanh" "Detailed Scan" "UDP Scan" "Check Server Uptime" "IPsec Scan" "Go back")
+		reconmenu=("Show IP" "DNS Recon" "Ping Sweep" "Quét nhanh" "Quét chi tiết" "Quét UDP" "Kiểm tra thời gian hoạt động của máy chủ" "Quét IPsec" "Quay lại")
 	select reconopt in "${reconmenu[@]}"; do
 #show external IP & interface IP(s)
 	if [ "$reconopt" = "Show IP" ]; then
@@ -54,23 +54,23 @@ reconmenu()
     elif [ "$reconopt" = "Quét nhanh" ]; then
         quickscan
 #Stealth Scan
-    elif [ "$reconopt" = "Detailed Scan" ]; then
+    elif [ "$reconopt" = "Quét chi tiết" ]; then
         detailedscan
 #UDP Scan
-	elif [ "$reconopt" = "UDP Scan" ]; then
+	elif [ "$reconopt" = "Quét UDP" ]; then
 		udpscan
 #Check uptime of server
-    elif [ "$reconopt" = "Check Server Uptime" ]; then
+    elif [ "$reconopt" = "Kiểm tra thời gian hoạt động của máy chủ" ]; then
         checkuptime
 #IPsec Scan
-	elif [ "$reconopt" = "IPsec Scan" ]; then
+	elif [ "$reconopt" = "Quét IPsec" ]; then
 		ipsecscan
 #Go back
-	elif [ "$reconopt" = "Go back" ]; then
+	elif [ "$reconopt" = "Quay lại" ]; then
 		mainmenu
 ## Default if no menu option selected is to return an error
 	else
-  		echo  "That's not a valid option! Hit Return to show menu"
+  		echo  "Đó không phải là một lựa chọn hợp lệ! Nhấn Quay lại để hiển thị menu"
 	fi
 	done
 }
