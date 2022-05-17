@@ -20,7 +20,7 @@ reconmenu
 dosmenu
     elif [ "$opt" = "Extraction" ]; then
 extractionmenu
-  	elif [ "$opt" = "Xem hướng dẫn" ]; then
+  	elif [ "$opt" = "pentmenu" ]; then
 showreadme
 	else
 #if no valid option is chosen, chastise the user
