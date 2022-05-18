@@ -41,72 +41,69 @@ git clone https://github.com/GinjaChris/pentmenu
 
 * Show IP - sử dụng curl để thực hiện tra cứu IP bên ngoài của bạn. Chạy `ip a` hoặc `ifconfig` (nếu thích hợp) để hiển thị IP của giao diện cục bộ.
 
+* DNS Recon - trinh sát thụ động, thực hiện tra cứu DNS (chuyển tiếp hoặc ngược lại nếu thích hợp với đầu vào mục tiêu) và tra cứu mục tiêu. Nếu không có whois, nó sẽ thực hiện tra cứu đối với ipinfo.io (chỉ hoạt động với IP, không hoạt động với tên máy chủ).
 
-* DNS Recon - passive recon, performs a DNS lookup (forward or reverse as appropriate for target input) and a whois lookup of the target.  If whois is not available it will perform a lookup against ipinfo.io (only works for IP's, not hostnames).
+* Ping Sweep - sử dụng nmap để thực hiện phản hồi ICMP (ping) đối với máy chủ hoặc mạng mục tiêu.
 
+* Quét nhanh - Máy quét Cổng TCP sử dụng nmap để quét các cổng đang mở bằng cách quét TCP SYN. Nmap sẽ không thực hiện quét ping trước khi thực hiện quét TCP SYN. Mô-đun này quét 1.000 cổng phổ biến nhất. Tất nhiên, mô-đun này có thể được sử dụng để quét một máy chủ duy nhất hoặc một mạng đầy đủ nhưng thực sự được thiết kế để xác định các mục tiêu trên một loạt địa chỉ IP. Quá trình quét này có thể mất nhiều thời gian để hoàn thành, hãy kiên nhẫn.
 
-* Ping Sweep - uses nmap to perform an ICMP echo (ping) against the target host or network.
+* Quét chi tiết - sử dụng nmap để xác định máy chủ lưu trữ trực tiếp, mở cổng, cố gắng xác định hệ điều hành, lấy biểu ngữ / xác định phiên bản phần mềm đang chạy. Nmap sẽ không thực hiện quét ping trước như một phần của quá trình quét này. Chuỗi User-Agent mặc định của Nmap được thay đổi thành chuỗi của trình duyệt Microsoft Edge trong chế độ này, để giúp tránh bị phát hiện qua HTTP. * Tất cả các cổng * TCP trên đích (tên máy chủ / IP / mạng con) đều được quét. Trong khi mô-đun có thể quét một máy chủ duy nhất hoặc nhiều máy chủ, mục đích sử dụng của nó là thực hiện quét thu thập thông tin đối với một hệ thống duy nhất. Quá trình quét này có thể mất nhiều thời gian để hoàn thành, hãy kiên nhẫn.
 
-
-* Quick Scan - TCP Port scanner using nmap to scan for open ports using TCP SYN scan.  Nmap will not perform a ping sweep prior to performing the TCP SYN scan. This module scans the 1,000 most common ports. This module can, of course, be used to scan a single host or a full network but is really designed to identify targets across a range of IP addresses. This scan can take a long time to finish, please be patient.
-
-
-* Detailed Scan - uses nmap to identify live hosts, open ports, attempts OS identification, grabs banners/identifies running software version.  Nmap will not perform a ping sweep prior as part of this scan.  Nmap's default User-Agent string is changed to that of Microsoft Edge browser in this mode, to help avoid detection via HTTP. *All* TCP ports on the target (hostname/IP/subnet) are scanned. Whilst module can scan a single host or many hosts, its intended use is to perform an information gathering scan against a single system. This scan can take a long time to finish, please be patient.
-
-
-* UDP scan - uses nmap to scan for open UDP ports. *All* UDP ports are scanned.
-
+* Quét UDP - sử dụng nmap để quét các cổng UDP đang mở. * Tất cả các cổng * UDP đều được quét.
 
 * Check Server Uptime - estimates the uptime of the target by querying an open TCP port with hping3. Accuracy of the results varies from one machine to another; this does not work against all servers.
 
+* IPsec Scan - cố gắng xác định sự hiện diện của máy chủ IPsec VPN bằng việc sử dụng ike-scan và các đề xuất Giai đoạn 1 khác nhau. Bất kỳ đầu ra văn bản nào từ mô-đun này, cho dù liên quan đến "bắt tay" hoặc "không có đề xuất nào được chọn", đều cho biết sự hiện diện của máy chủ IPsec VPN. Xem http://nta-monitor.com/wiki/index.php/Ike-scan_User_Guide để có cái nhìn tổng quan tuyệt vời về ike-scan và VPN giai đoạn 1.
 
-* IPsec Scan - attempts to identify the presence of an IPsec VPN server with the use of ike-scan and various Phase 1 proposals. Any text output from this module, whether it be regarding "handshake" or "no proposal chosen", indicates the presence of an IPsec VPN server.  See http://nta-monitor.com/wiki/index.php/Ike-scan_User_Guide for an excellent overview of ike-scan and VPN phase 1.
+**CÁC CHẾ ĐỘ DOS**
 
-
-**DOS MODULES**
-
-* ICMP Echo Flood - uses hping3 to launch a traditional ICMP Echo flood against the target.  On a modern system you are unlikely to achieve much, but it is useful to test against firewalls to observe their behaviour.  Use 'Ctrl C' to end the flood.
-The source address of flood packets is configurable. Note that the target can be an IP (i.e 127.0.0.1) or a hostname (i.e localhost.localnet.com).  Do NOT include the protocol as part of the target (i.e. http://localhost.localnet.com).
+* ICMP Echo Flood - sử dụng hping3 để khởi chạy lũ ICMP Echo truyền thống chống lại mục tiêu. Trên một hệ thống hiện đại, bạn có thể không đạt được nhiều thành tựu, nhưng sẽ rất hữu ích nếu bạn kiểm tra tường lửa để quan sát hành vi của chúng. Sử dụng 'Ctrl C' để kết thúc lũ.
+Địa chỉ nguồn của các gói lũ có thể định cấu hình. Lưu ý rằng mục tiêu có thể là IP (tức là 127.0.0.1) hoặc tên máy chủ (tức là localhost.localnet.com). KHÔNG bao gồm giao thức như một phần của mục tiêu (tức là http://localhost.localnet.com).
 
 
-* ICMP Blacknurse Flood - uses hping3 to launch an ICMP flood against the target.  ICMP packets are of type "Destination Unreachable, Port Unreachable". This attack can cause high CPU usage on many systems.  Use 'Ctrl C' to end the attack.  See http://blacknurse.dk/ for more information. The source address of flood packets is configurable. 
+* ICMP Blacknurse Flood - sử dụng hping3 để khởi chạy lũ ICMP chống lại mục tiêu. Các gói ICMP thuộc loại "Không thể truy cập đích, không thể truy cập cổng". Cuộc tấn công này có thể gây ra mức sử dụng CPU cao trên nhiều hệ thống. Sử dụng 'Ctrl C' để kết thúc cuộc tấn công. Xem http://blacknurse.dk/ để biết thêm thông tin. Địa chỉ nguồn của các gói lũ có thể định cấu hình.
 
 
-* TCP SYN Flood - sends a flood of TCP SYN packets using hping3.  If hping3 is not found, it attempts to use the nmap-nping utility instead. Hping3 is preferred since it sends packets as fast as possible.  Options are provided to use a source IP of your interface, or specify (spoof) a source IP, or spoof a random source IP for each packet.
-Optionally, you can add data to the SYN packet.  All SYN packets have the fragmentation bit set and use hpings virtual MTU of 16 bytes, guaranteeing fragmentation.
-Falling back to nmap-nping means sending X number of packets per second until Y number of packets is sent and only allows the use of interface IP or a specified (spoofed) source IP.  
-A TCP SYN flood is unlikely to break a server, but is a good way to test switch/router/firewall infrastructure and state tables.
-Note that whilst hping will report the outbound interface and IP which might make you think script does not work as expected, the source IP *will* be set as specified; review a packet capture of the traffic if in doubt!
-Since the source is definable, it is simple to launch a LAND attack for example (see https://en.wikipedia.org/wiki/LAND).  The ability to set the source also allows, for example, sending SYN packets to one target and forcing the SYN-ACK responses to a second target.
+* TCP SYN Flood - gửi một loạt các gói TCP SYN bằng cách sử dụng hping3. Nếu không tìm thấy hping3, nó sẽ cố gắng sử dụng tiện ích nmap-nping để thay thế. Hping3 được ưu tiên hơn vì nó gửi các gói nhanh nhất có thể. Các tùy chọn được cung cấp để sử dụng IP nguồn của giao diện của bạn hoặc chỉ định (giả mạo) một IP nguồn, hoặc giả mạo một IP nguồn ngẫu nhiên cho mỗi gói.
+
+Theo tùy chọn, bạn có thể thêm dữ liệu vào gói SYN. Tất cả các gói SYN đều có bộ bit phân mảnh và sử dụng MTU ảo hpings 16 byte, đảm bảo phân mảnh.
+
+Quay lại nmap-nping có nghĩa là gửi X số gói mỗi giây cho đến khi Y số gói được gửi và chỉ cho phép sử dụng IP giao diện hoặc một IP nguồn được chỉ định (giả mạo).
+
+Lũ TCP SYN không có khả năng làm hỏng máy chủ, nhưng là một cách tốt để kiểm tra cơ sở hạ tầng chuyển mạch / bộ định tuyến / tường lửa và các bảng trạng thái.
+
+Lưu ý rằng trong khi hping sẽ báo cáo giao diện gửi đi và IP có thể khiến bạn nghĩ rằng tập lệnh không hoạt động như mong đợi, thì IP nguồn * sẽ * được đặt như đã chỉ định; xem lại một gói tin lưu lượng truy cập nếu nghi ngờ!
+Vì nguồn có thể xác định được, nên rất đơn giản để khởi động một cuộc tấn công LAND chẳng hạn (xem https://en.wikipedia.org/wiki/LAND).  Khả năng thiết lập nguồn cũng cho phép, ví dụ, gửi các gói SYN đến một mục tiêu và buộc các phản hồi SYN-ACK đến mục tiêu thứ hai.
+
+* TCP ACK Flood - cung cấp các tùy chọn tương tự như SYN lũ, nhưng thay vào đó đặt cờ ACK (Acknowledgement) TCP.
+Một số hệ thống sẽ dành quá nhiều chu kỳ CPU để xử lý các gói như vậy. Nếu IP nguồn được đặt thành IP của một kết nối đã thiết lập, thì có thể một kết nối đã thiết lập có thể bị gián đoạn bởi TCP ACK Flood 'mù' này. Cuộc tấn công này được coi là 'mù' vì nó không tính đến bất kỳ chi tiết nào của bất kỳ kết nối đã thiết lập nào (như số thứ tự hoặc số xác nhận).
+
+* TCP RST Flood - cung cấp các tùy chọn tương tự như SYN lũ, nhưng thay vào đó đặt cờ RST (Đặt lại) TCP.
+Một cuộc tấn công như vậy có thể làm gián đoạn các kết nối đã thiết lập nếu IP nguồn được đặt thành IP của kết nối đã thiết lập.
+Xem https://en.wikipedia.org/wiki/TCP_reset_attack chẳng hạn.
 
 
-* TCP ACK Flood - offers the same options as the SYN flood, but sets the ACK (Acknowledgement) TCP flag instead.
-Some systems will spend excessive CPU cycles processing such packets.  If the source IP is set to that of an established connection, it is possible that an estabished connection can be disrupted by this 'blind' TCP ACK Flood.  This attack is considered 'blind' because it does not take into account any details of any established connection (like sequence or acknowledgement numbers).  
+* TCP XMAS Flood - tương tự như lũ SYN và ACK, với các tùy chọn tương tự, nhưng gửi các gói với tất cả các cờ TCP được đặt (CWR, ECN, URG, ACK, PSH, RST, SYN, FIN). Gói tin được coi là 'sáng lên như một cây christmase'. Về mặt lý thuyết, một gói tin như vậy yêu cầu nhiều tài nguyên hơn cho người nhận để xử lý so với một gói tin tiêu chuẩn.
+Tuy nhiên, những gói tin như vậy là dấu hiệu của hành vi bất thường (chẳng hạn như một cuộc tấn công) và thường được IDS / IDP dễ dàng xác định.
 
 
-* TCP RST Flood - offers the same options as the SYN flood, but sets the RST (Reset) TCP flag instead.
-Such an attack could interrupt established connections if the source IP is set to that of an established connection.
-See https://en.wikipedia.org/wiki/TCP_reset_attack for example.
+* UDP Flood - giống như TCP SYN Flood nhưng thay vào đó sẽ gửi các gói UDP đến máy chủ lưu trữ: cổng được chỉ định. Giống như hàm TCP SYN Flood, hping3 được sử dụng nhưng nếu không tìm thấy nó, nó sẽ cố gắng sử dụng nmap-nping để thay thế. Tất cả các tùy chọn đều giống TCP SYN Flood, ngoại trừ bạn phải chỉ định dữ liệu để gửi trong các gói UDP.
+
+Một lần nữa, đây là một cách tốt để kiểm tra thông lượng của bộ chuyển mạch / bộ định tuyến hoặc để kiểm tra hệ thống VOIP.
 
 
-* TCP XMAS Flood - similar to the SYN and ACK floods, with the same options, but sends packets with all TCP flags set (CWR,ECN,URG,ACK,PSH,RST,SYN,FIN).  The packet is considered to be 'lit up like a christmase tree'.  Theoretically at least, such a packet requires more resources for the receiver to process than a standard packet.
-However, such packets are quite indicative of unusual behaviour (such as an attack) and are usually easily identified by IDS/IDP.
+* SSL DOS - sử dụng OpenSSL để cố gắng DOS một máy chủ đích: cổng. Nó thực hiện điều này bằng cách mở nhiều kết nối và khiến máy chủ thực hiện các tính toán bắt tay tốn kém. Đây không phải là một đoạn mã đẹp đẽ hay thanh lịch, đừng mong đợi nó dừng lại ngay lập tức khi nhấn 'Ctrl c', nhưng nó có thể có hiệu quả khủng khiếp.
+* 
+Tùy chọn thương lượng lại của khách hàng được đưa ra; nếu máy chủ đích hỗ trợ thương lượng lại do máy khách khởi xướng, thì tùy chọn này nên được chọn.
+Ngay cả khi máy chủ mục tiêu không hỗ trợ máy khách thương lượng lại (ví dụ: CVE-2011-1473), vẫn có thể tác động / DOS máy chủ với cuộc tấn công này.
+Sẽ rất hữu ích khi chạy điều này trên bộ cân bằng tải / proxy / máy chủ hỗ trợ SSL (không chỉ HTTPS, mà bất kỳ dịch vụ được mã hóa SSL hoặc TLS nào!) Để xem cách chúng đối phó với căng thẳng.
 
+* Slowloris - sử dụng netcat để từ từ gửi Tiêu đề HTTP đến máy chủ đích: cổng với mục đích làm cạn kiệt tài nguyên của nó. Điều này có hiệu quả đối với nhiều, mặc dù không phải tất cả, máy chủ HTTP, miễn là các kết nối có thể được mở đủ lâu. Do đó, cuộc tấn công này chỉ có hiệu quả nếu máy chủ không giới hạn thời gian có sẵn để gửi một yêu cầu HTTP hoàn chỉnh.
+* 
+Một số triển khai của cuộc tấn công này sử dụng các tiêu đề có thể xác định rõ ràng, điều này không xảy ra ở đây. Có thể định cấu hình số lượng kết nối để mở tới mục tiêu.
 
-* UDP Flood - much like the TCP SYN Flood but instead sends UDP packets to the specified host:port. Like the TCP SYN Flood function, hping3 is used but if it is not found, it attempts to use nmap-nping instead.  All options are the same as TCP SYN Flood, except you must specify data to send in the UDP packets.
-Again, this is a good way to check switch/router throughput or to test VOIP systems.
-
-
-* SSL DOS - uses OpenSSL to attempt to DOS a target host:port.  It does this by opening many connections and causing the server to make expensive handshake calculations.  This is not a pretty or elegant piece of code, do not expect it to stop immediately upon pressing 'Ctrl c', but it can be brutally effective.  
-The option for client renegotiation is given;  if the target server supports client initiated renegotiation, this option should be chosen.
-Even if the target server does not support client renegotiation (for example CVE-2011-1473), it is still possible to impact/DOS the server with this attack.  
-It is very useful to run this against loadbalancers/proxies/SSL-enabled servers (not just HTTPS, but any SSL or TLS encrypted service!) to see how they cope under the strain.
-
-
-* Slowloris - uses netcat to slowly send HTTP Headers to the target host:port with the intention of starving it of resources.  This is effective against many, although not all, HTTP servers, provided the connections can be held open for long enough.  Therefore this attack is only effective if the server does not limit the time available to send a complete HTTP request.
-Some implementations of this attack use clearly identifiable headers which is not the case here.  The number of connections to open to the target is configurable. 
-The interval between sending each header line is configurable, with the default being a random value between 5 and 15 seconds. The idea is to send headers slowly, but not so slow that the servers idle timeout closes the connection.  For example, if we send one header line every 900 seconds, the likelyhood is that the server will have closed the connection long before we send a second header line.
-The option to use SSL (SSL/TLS) is given, which requires stunnel and allows the attack to be used against a HTTPS server.  You don't use the SSL option against a plain HTTP server.
+Khoảng thời gian giữa việc gửi mỗi dòng tiêu đề có thể định cấu hình, với giá trị mặc định là ngẫu nhiên từ 5 đến 15 giây. Ý tưởng là gửi tiêu đề chậm, nhưng không chậm đến mức máy chủ hết thời gian chờ đóng kết nối. Ví dụ: nếu chúng tôi gửi một dòng tiêu đề cứ sau 900 giây, thì khả năng là máy chủ sẽ đóng kết nối rất lâu trước khi chúng tôi gửi dòng tiêu đề thứ hai.
+Tùy chọn sử dụng SSL (SSL / TLS) được đưa ra, yêu cầu đường hầm và cho phép tấn công được sử dụng chống lại máy chủ HTTPS. Bạn không sử dụng tùy chọn SSL đối với một máy chủ HTTP thuần túy.
 
 Defences against this attack include (but are not limited to):
 
