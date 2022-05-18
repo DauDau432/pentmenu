@@ -93,44 +93,44 @@ Một lần nữa, đây là một cách tốt để kiểm tra thông lượng 
 
 
 * SSL DOS - sử dụng OpenSSL để cố gắng DOS một máy chủ đích: cổng. Nó thực hiện điều này bằng cách mở nhiều kết nối và khiến máy chủ thực hiện các tính toán bắt tay tốn kém. Đây không phải là một đoạn mã đẹp đẽ hay thanh lịch, đừng mong đợi nó dừng lại ngay lập tức khi nhấn 'Ctrl c', nhưng nó có thể có hiệu quả khủng khiếp.
-* 
+
 Tùy chọn thương lượng lại của khách hàng được đưa ra; nếu máy chủ đích hỗ trợ thương lượng lại do máy khách khởi xướng, thì tùy chọn này nên được chọn.
 Ngay cả khi máy chủ mục tiêu không hỗ trợ máy khách thương lượng lại (ví dụ: CVE-2011-1473), vẫn có thể tác động / DOS máy chủ với cuộc tấn công này.
 Sẽ rất hữu ích khi chạy điều này trên bộ cân bằng tải / proxy / máy chủ hỗ trợ SSL (không chỉ HTTPS, mà bất kỳ dịch vụ được mã hóa SSL hoặc TLS nào!) Để xem cách chúng đối phó với căng thẳng.
 
 * Slowloris - sử dụng netcat để từ từ gửi Tiêu đề HTTP đến máy chủ đích: cổng với mục đích làm cạn kiệt tài nguyên của nó. Điều này có hiệu quả đối với nhiều, mặc dù không phải tất cả, máy chủ HTTP, miễn là các kết nối có thể được mở đủ lâu. Do đó, cuộc tấn công này chỉ có hiệu quả nếu máy chủ không giới hạn thời gian có sẵn để gửi một yêu cầu HTTP hoàn chỉnh.
-* 
+
 Một số triển khai của cuộc tấn công này sử dụng các tiêu đề có thể xác định rõ ràng, điều này không xảy ra ở đây. Có thể định cấu hình số lượng kết nối để mở tới mục tiêu.
 
 Khoảng thời gian giữa việc gửi mỗi dòng tiêu đề có thể định cấu hình, với giá trị mặc định là ngẫu nhiên từ 5 đến 15 giây. Ý tưởng là gửi tiêu đề chậm, nhưng không chậm đến mức máy chủ hết thời gian chờ đóng kết nối. Ví dụ: nếu chúng tôi gửi một dòng tiêu đề cứ sau 900 giây, thì khả năng là máy chủ sẽ đóng kết nối rất lâu trước khi chúng tôi gửi dòng tiêu đề thứ hai.
 Tùy chọn sử dụng SSL (SSL / TLS) được đưa ra, yêu cầu đường hầm và cho phép tấn công được sử dụng chống lại máy chủ HTTPS. Bạn không sử dụng tùy chọn SSL đối với một máy chủ HTTP thuần túy.
 
-Defences against this attack include (but are not limited to):
+Các biện pháp phòng thủ chống lại cuộc tấn công này bao gồm (nhưng không giới hạn):
 
-Limiting the number of TCP connections per client; this will prevent a single machine from making the server unavailable, but is not effective if say, 10,000 clients launch the attack simultaneously.  Additionally, such a defensive measure may negatively impact multiple (legitimate) clients operating behind a forward proxy server.
+Giới hạn số lượng kết nối TCP trên mỗi máy khách; điều này sẽ ngăn một máy duy nhất làm cho máy chủ không khả dụng, nhưng không hiệu quả nếu giả sử 10.000 máy khách khởi động cuộc tấn công đồng thời. Ngoài ra, một biện pháp phòng thủ như vậy có thể tác động tiêu cực đến nhiều máy khách (hợp pháp) hoạt động phía sau một máy chủ proxy chuyển tiếp.
 
-Limiting the time available to send a complete HTTP request; this is effective since the attack relies on slowly sending headers to the server (the server should await all headers from the client before responding).  If the server limits the time for receiving all headers of a request to 10 seconds (for example) it will severely limit the effectiveness of the attack.  It is possible that such a measure will prevent legitimate clients over slow/lossy connections from accessing the site.
-
-
-* IPsec DOS - uses ike-scan to attempt to flood the specified IP with Main mode and Aggressive mode Phase 1 packets from random source IP's.  Use the IPsec Scan module to identify the presence of an IPsec VPN server.
+Giới hạn thời gian có sẵn để gửi một yêu cầu HTTP hoàn chỉnh; điều này có hiệu quả vì cuộc tấn công dựa vào việc gửi từ từ các tiêu đề đến máy chủ (máy chủ phải đợi tất cả các tiêu đề từ máy khách trước khi phản hồi). Nếu máy chủ giới hạn thời gian nhận tất cả các tiêu đề của một yêu cầu là 10 giây (ví dụ), nó sẽ hạn chế nghiêm trọng hiệu quả của cuộc tấn công. Có thể một biện pháp như vậy sẽ ngăn không cho các khách hàng hợp pháp có kết nối chậm / mất kết nối truy cập vào trang web.
 
 
-* Distraction Scan - this is not really a DOS attack but simply launches multiple TCP SYN scans, using hping3, from a spoofed IP of your choosing (such as the IP of your worst enemy). It is designed to be an obvious scan in order to trigger any lDS/IPS the target may have and so hopefully obscure any actual scan or other action that you may be carrying out.
+* IPsec DOS - sử dụng ike-scan để cố gắng làm ngập các gói IP được chỉ định với Chế độ chính và Chế độ tích cực Giai đoạn 1 từ các gói IP nguồn ngẫu nhiên. Sử dụng mô-đun IPsec Scan để xác định sự hiện diện của máy chủ IPsec VPN.
 
 
-* DNS NXDOMAIN Flood - this attack uses the netcat and is designed to stress test your DNS server by sending a flood of DNS queries for (mostly) non-existent domains as well as some malformed DNS requests.  When run against a recursive DNS server it tries to tie up the server and fill the cache with negative responses, slowing/preventing legitimate queries.  Works best launched from multiple attacking clients. Use 'Ctrl c' to stop the attack.
+* Distraction Scan - đây không thực sự là một cuộc tấn công DOS mà chỉ đơn giản là khởi chạy nhiều lần quét TCP SYN, sử dụng hping3, từ một IP giả mạo mà bạn chọn (chẳng hạn như IP của kẻ thù tồi tệ nhất của bạn). Nó được thiết kế để trở thành một quá trình quét rõ ràng nhằm kích hoạt bất kỳ lDS / IPS nào mà mục tiêu có thể có và do đó hy vọng sẽ che khuất bất kỳ quá trình quét thực tế hoặc hành động nào khác mà bạn có thể đang thực hiện.
 
 
-**EXTRACTION MODULES**
-
-* Send File - This module uses netcat to send data with TCP or UDP.  It can be extremely useful for extracting data.
-An md5 and sha512 checksum is calculated and displayed prior to sending the file.
-The file can be sent to a server of your choice; the Listener is designed to receive these files.
+* DNS NXDOMAIN Flood - Cuộc tấn công này sử dụng netcat và được thiết kế để kiểm tra căng thẳng máy chủ DNS của bạn bằng cách gửi một loạt các truy vấn DNS cho (hầu hết) các miền không tồn tại cũng như một số yêu cầu DNS không đúng định dạng. Khi chạy với máy chủ DNS đệ quy, nó cố gắng kết nối máy chủ và lấp đầy bộ nhớ cache bằng các phản hồi tiêu cực, làm chậm / ngăn các truy vấn hợp pháp. Hoạt động tốt nhất được khởi chạy từ nhiều khách hàng đang tấn công. Sử dụng 'Ctrl c' để dừng cuộc tấn công.
 
 
-* Listener - uses netcat to open a listener on a configurable TCP or UDP port.  This can be useful for testing syslog connectivity, receive files or checking for active scanning on the network. Anything received by the listener is written out to ./pentmenu.listener.out or a file of your choice.
-When receiving files over UDP, the listener must be manually closed with 'Ctrl C'.  This is because we have to force netcat to stay open to receive multiple packets, since UDP is a connectionless protocol.
-When receiving files over TCP, the connection automatically closes after the client closes their connection (once the file is transferred) and md5 and sha512 checksums are calculated for the received file.
+**CÁC CHẾ ĐỘ CHIẾT XUẤT**
+
+* Send File - Mô-đun này sử dụng netcat để gửi dữ liệu bằng TCP hoặc UDP. Nó có thể cực kỳ hữu ích để trích xuất dữ liệu.
+Tổng kiểm tra md5 và sha512 được tính toán và hiển thị trước khi gửi tệp.
+Tệp có thể được gửi đến một máy chủ mà bạn chọn; Trình nghe được thiết kế để nhận các tệp này.
+
+
+* Listener - sử dụng netcat để mở trình nghe trên cổng TCP hoặc UDP có thể định cấu hình. Điều này có thể hữu ích để kiểm tra kết nối nhật ký hệ thống, nhận tệp hoặc kiểm tra quá trình quét đang hoạt động trên mạng. Mọi thứ mà người nghe nhận được sẽ được ghi vào ./pentmenu.listener.out hoặc một tệp bạn chọn.
+Khi nhận tệp qua UDP, trình nghe phải được đóng theo cách thủ công bằng 'Ctrl C'. Điều này là do chúng ta phải buộc netcat luôn mở để nhận nhiều gói tin, vì UDP là một giao thức không kết nối.
+Khi nhận tệp qua TCP, kết nối tự động đóng sau khi máy khách đóng kết nối của họ (sau khi tệp được chuyển) và tổng kiểm tra md5 và sha512 được tính cho tệp đã nhận.
 
 
 ## Tuyên bố từ chối trách nhiệm
